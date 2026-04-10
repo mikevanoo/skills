@@ -11,7 +11,7 @@ Follow these steps in order:
 
 3. **Draft the PR Content:** Using the context gathered in Step 1, draft a concise but complete Pull Request title and body. The body should clearly summarise the "Why" and "What" of the changes.
 
-4. **Link the Issue:** At the very end of the PR body, if the user gave an issue number, add a new line with the exact text: `Closes issue #<ISSUE_NUMBER>` (replacing `<ISSUE_NUMBER>` with the input received in Step 2).
+4. **Link the Issue:** At the very end of the PR body, if the user gave an issue number, add a new line with the exact text: `Closes #<ISSUE_NUMBER>` (replacing `<ISSUE_NUMBER>` with the input received in Step 2).
 
 5. **Push the Branch:** Ensure the current branch is pushed to the remote repository. Run:
    `git push -u origin HEAD`
