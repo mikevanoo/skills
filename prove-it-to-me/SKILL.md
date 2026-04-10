@@ -1,4 +1,4 @@
-﻿---
+---
 name: prove-it-to-me
 description: Triggered when the user is skeptical or suspicious of a previous response. The LLM must step back, self-audit its last message, and provide empirical evidence (code execution, file reads, or search) to verify its claims. If a claim is found to be incorrect during this audit, the LLM must own the error and provide a correction.
 disable-model-invocation: true
