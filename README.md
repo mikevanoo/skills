@@ -1,7 +1,7 @@
 # Agent Skills
 My personal collection of AI agent skills.
 
-Lifted directly from, of heavily inspired by, https://github.com/mattpocock/skills.
+Lifted directly from, or heavily inspired by, https://github.com/mattpocock/skills and https://github.com/haletothewood.
 
 ## Planning & Design
 
@@ -96,6 +96,16 @@ These skills help you write, refactor, and fix code.
   npx skills@latest add mikevanoo/skills/scaffold-exercises
   ```
 -->
+
+## Interrogation
+
+These skills help you interrogate and validate agent responses.
+
+- **prove-it-to-me** — Ask the agent to prove, empirically, that its previous response is true. 
+
+  ```
+  npx skills@latest add mikevanoo/skills/prove-it-to-me
+  ```
 
 <!--
 ## Tooling & Setup
