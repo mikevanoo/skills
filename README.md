@@ -51,6 +51,12 @@ These skills help you think through problems before writing code.
 
 These skills help you write, refactor, and fix code.
 
+- **commit** — Commit the pending changes in the current branch with a descriptive commit message.
+
+  ```
+  npx skills@latest add mikevanoo/skills/commit
+  ```
+
 - **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 
   ```
