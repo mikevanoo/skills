@@ -57,6 +57,12 @@ These skills help you write, refactor, and fix code.
   npx skills@latest add mikevanoo/skills/commit
   ```
 
+- **create-pr** — Create a new GitHub pull request (PR) for the current branch.
+
+  ```
+  npx skills@latest add mikevanoo/skills/create-pr
+  ```
+
 - **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 
   ```
