@@ -1,7 +1,7 @@
 # Agent Skills
 My personal collection of AI agent skills.
 
-Lifted directly from, of heavily inspired by, https://github.com/mikevanoo/skills/.
+Lifted directly from, of heavily inspired by, https://github.com/mattpocock/skills.
 
 ## Planning & Design
 
