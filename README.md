@@ -107,6 +107,16 @@ These skills help you interrogate and validate agent responses.
   npx skills@latest add mikevanoo/skills/prove-it-to-me
   ```
 
+## Prompt Engineering
+
+These skills help you craft better prompts.
+
+- **improve-prompt** — Refine and improve an existing AI chat prompt so it is better structured and worded for a higher-quality response.
+
+  ```
+  npx skills@latest add mikevanoo/skills/improve-prompt
+  ```
+
 <!--
 ## Tooling & Setup
 
