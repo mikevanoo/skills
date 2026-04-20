@@ -80,8 +80,8 @@ Or "None - can start immediately" if no blockers.
 
 Reference by number from the parent PRD:
 
-- User story 3
-- User story 7
+- User story 3: <brief title of the user story>
+- User story 7: <brief title of the user story>
 
 </issue-template>
 
