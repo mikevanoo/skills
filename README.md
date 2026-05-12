@@ -7,31 +7,12 @@ Lifted directly from, or heavily inspired by, https://github.com/mattpocock/skil
 
 These skills help you think through problems before writing code.
 
-- **write-a-prd** — Create a PRD through an interactive interview, codebase exploration, and module design. Filed as a GitHub issue.
-
-  ```
-  npx skills@latest add mikevanoo/skills/write-a-prd
-  ```
-
-<!--
-- **prd-to-plan** — Turn a PRD into a multi-phase implementation plan using tracer-bullet vertical slices.
-
-  ```
-  npx skills@latest add mikevanoo/skills/prd-to-plan
-  ```
--->
-
-- **prd-to-issues** — Break a PRD into independently-grabbable GitHub issues using vertical slices.
-
-  ```
-  npx skills@latest add mikevanoo/skills/prd-to-issues
-  ```
-
 - **grill-me** — Get relentlessly interviewed about a plan or design until every branch of the decision tree is resolved.
 
   ```
   npx skills@latest add mikevanoo/skills/grill-me
   ```
+
 
 - **grill-with-docs** — Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation.
 
@@ -39,19 +20,20 @@ These skills help you think through problems before writing code.
   npx skills@latest add mikevanoo/skills/grill-with-docs
   ```
 
-<!--
-- **design-an-interface** — Generate multiple radically different interface designs for a module using parallel sub-agents.
+
+- **write-a-prd** — Create a PRD through an interactive interview, codebase exploration, and module design. Filed as a GitHub issue.
 
   ```
-  npx skills@latest add mikevanoo/skills/design-an-interface
+  npx skills@latest add mikevanoo/skills/write-a-prd
   ```
 
-- **request-refactor-plan** — Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue.
+
+- **prd-to-issues** — Break a PRD into independently-grabbable GitHub issues using vertical slices.
 
   ```
-  npx skills@latest add mikevanoo/skills/request-refactor-plan
+  npx skills@latest add mikevanoo/skills/prd-to-issues
   ```
--->
+
 
 ## Development
 
@@ -69,39 +51,25 @@ These skills help you write, refactor, and fix code.
   npx skills@latest add mikevanoo/skills/create-pr
   ```
 
-- **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
-
-  ```
-  npx skills@latest add mikevanoo/skills/tdd
-  ```
-
-<!--
-- **triage-issue** — Investigate a bug by exploring the codebase, identify the root cause, and file a GitHub issue with a TDD-based fix plan.
-
-  ```
-  npx skills@latest add mikevanoo/skills/triage-issue
-  ```
--->
 
 - **improve-codebase-architecture** — Explore a codebase for architectural improvement opportunities, focusing on deepening shallow modules and improving testability.
 
   ```
   npx skills@latest add mikevanoo/skills/improve-codebase-architecture
   ```
+  
 
-<!--
-- **migrate-to-shoehorn** — Migrate test files from `as` type assertions to @total-typescript/shoehorn.
-
-  ```
-  npx skills@latest add mikevanoo/skills/migrate-to-shoehorn
-  ```
-
-- **scaffold-exercises** — Create exercise directory structures with sections, problems, solutions, and explainers.
+- **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 
   ```
-  npx skills@latest add mikevanoo/skills/scaffold-exercises
+  npx skills@latest add mikevanoo/skills/tdd
   ```
--->
+
+- **triage** — Triage issues through a state machine driven by triage roles..
+
+  ```
+  npx skills@latest add mikevanoo/skills/triage
+  ```
 
 ## Interrogation
 
@@ -122,47 +90,3 @@ These skills help you craft better prompts.
   ```
   npx skills@latest add mikevanoo/skills/improve-prompt
   ```
-
-<!--
-## Tooling & Setup
-
-- **setup-pre-commit** — Set up Husky pre-commit hooks with lint-staged, Prettier, type checking, and tests.
-
-  ```
-  npx skills@latest add mikevanoo/skills/setup-pre-commit
-  ```
-
-- **git-guardrails-claude-code** — Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, etc.) before they execute.
-
-  ```
-  npx skills@latest add mikevanoo/skills/git-guardrails-claude-code
-  ```
--->
-
-<!--
-## Writing & Knowledge
-
-- **write-a-skill** — Create new skills with proper structure, progressive disclosure, and bundled resources.
-
-  ```
-  npx skills@latest add mikevanoo/skills/write-a-skill
-  ```
-
-- **edit-article** — Edit and improve articles by restructuring sections, improving clarity, and tightening prose.
-
-  ```
-  npx skills@latest add mikevanoo/skills/edit-article
-  ```
-
-- **ubiquitous-language** — Extract a DDD-style ubiquitous language glossary from the current conversation.
-
-  ```
-  npx skills@latest add mikevanoo/skills/ubiquitous-language
-  ```
-
-- **obsidian-vault** — Search, create, and manage notes in an Obsidian vault with wikilinks and index notes.
-
-  ```
-  npx skills@latest add mikevanoo/skills/obsidian-vault
-  ```
--->
