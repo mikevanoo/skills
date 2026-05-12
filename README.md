@@ -33,6 +33,12 @@ These skills help you think through problems before writing code.
   npx skills@latest add mikevanoo/skills/grill-me
   ```
 
+- **grill-with-docs** — Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation.
+
+  ```
+  npx skills@latest add mikevanoo/skills/grill-with-docs
+  ```
+
 <!--
 - **design-an-interface** — Generate multiple radically different interface designs for a module using parallel sub-agents.
 
