@@ -52,6 +52,13 @@ These skills help you write, refactor, and fix code.
   ```
 
 
+- **diagnose** — Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test.
+
+  ```
+  npx skills@latest add mikevanoo/skills/diagnose
+  ```
+  
+
 - **improve-codebase-architecture** — Explore a codebase for architectural improvement opportunities, focusing on deepening shallow modules and improving testability.
 
   ```
