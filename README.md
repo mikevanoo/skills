@@ -3,6 +3,19 @@ My personal collection of AI agent skills.
 
 Lifted directly from, or heavily inspired by, https://github.com/mattpocock/skills and https://github.com/haletothewood.
 
+## Typical workflow
+
+The skills are designed to chain together across the life of a feature:
+
+1. **`grill-with-docs`** — stress-test the idea against the existing domain model and update `CONTEXT.md` / ADRs (or `grill-me` for general use cases or where you don't have existing `CONTEXT.md` / ADRs).
+2. **`write-a-prd`** — turn the sharpened idea into a PRD filed as a GitHub issue.
+3. **`prd-to-issues`** — split that PRD into independently-grabbable vertical-slice issues.
+4. **`triage`** — review and shape incoming issues so an agent can pick them up unaided.
+5. **`tdd`** — implement a slice red-green-refactor.
+6. **`commit`** → **`create-pr`** — land the work and open a PR linked to the issue.
+
+Use any subset on its own — `diagnose`, `improve-codebase-architecture`, `improve-prompt`, and `prove-it-to-me` are independent of the chain.
+
 ## Planning & Design
 
 These skills help you think through problems before writing code.
