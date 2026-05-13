@@ -12,6 +12,7 @@ Don't mock:
 - Your own classes/modules
 - Internal collaborators
 - Anything you control
+- In legacy code with no DI, mocking internal collaborators may be necessary as a stepping-stone — but treat those tests as scaffolding to be deleted once the seam is fixed.
 
 ## Designing for Mockability
 
