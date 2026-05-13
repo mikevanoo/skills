@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
-# Validate that staged files inside skill subfolders are LF-terminated UTF-8 without a BOM.
+# Validate that staged files inside skill subfolders pass content and structural checks.
 # Enable with:  git config core.hooksPath .githooks
+#
+# Per-file checks:
+#   - No UTF-8 BOM
+#   - LF line endings (no CR bytes)
+#   - Valid UTF-8 encoding
+#   - File ends with a newline
+# SKILL.md-specific checks:
+#   - Starts with YAML frontmatter (--- delimited)
+#   - Frontmatter contains 'name:' and 'description:' keys
+#   - Frontmatter 'name:' matches the folder name
+# Repo-level checks:
+#   - Every skill folder touched by this commit contains a SKILL.md
+#   - No trailing whitespace or merge conflict markers (via git diff --check)
 
 set -eu
 
@@ -8,64 +21,122 @@ errors=0
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
 
-staged=$(git diff --cached --name-only --diff-filter=ACMR)
-[ -z "$staged" ] && exit 0
-
-while IFS= read -r file; do
-    [ -z "$file" ] && continue
-
-    # Only files inside a subfolder (skill folders) — skip root-level files.
-    case "$file" in
+is_skill_path() {
+    case "$1" in
         */*) ;;
-        *) continue ;;
+        *) return 1 ;;
     esac
-
-    # Skip tooling/hidden folders.
-    case "$file" in
-        .git/*|.githooks/*|.idea/*|.vscode/*) continue ;;
+    case "$1" in
+        .git/*|.githooks/*|.idea/*|.vscode/*) return 1 ;;
     esac
+    return 0
+}
 
-    # Read staged blob (what is actually being committed) into a temp file.
-    tmp="$tmpdir/blob"
-    if ! git show ":$file" > "$tmp" 2>/dev/null; then
-        continue
-    fi
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
 
-    # Skip empty files — nothing to validate.
-    [ -s "$tmp" ] || continue
+# ---- Per-file checks ----------------------------------------------------------
+if [ -n "$staged" ]; then
+    while IFS= read -r file; do
+        [ -z "$file" ] && continue
+        is_skill_path "$file" || continue
 
-    # Skip binary files (null byte in first 8KiB).
-    nulls=$(LC_ALL=C head -c 8192 "$tmp" | LC_ALL=C tr -d -c '\000' | wc -c | tr -d ' ')
-    if [ "$nulls" -gt 0 ]; then
-        continue
-    fi
+        tmp="$tmpdir/blob"
+        git show ":$file" > "$tmp" 2>/dev/null || continue
+        [ -s "$tmp" ] || continue
 
-    # BOM check: first three bytes must not be EF BB BF.
-    if [ "$(od -An -N3 -tx1 "$tmp" | tr -d ' \n')" = "efbbbf" ]; then
-        echo "ERROR: $file has a UTF-8 BOM"
-        errors=$((errors + 1))
-    fi
+        # Skip binary files (null byte in first 8KiB).
+        nulls=$(LC_ALL=C head -c 8192 "$tmp" | LC_ALL=C tr -d -c '\000' | wc -c | tr -d ' ')
+        [ "$nulls" -gt 0 ] && continue
 
-    # CRLF check: any CR byte indicates non-LF endings.
-    cr_count=$(LC_ALL=C tr -d -c '\r' < "$tmp" | wc -c | tr -d ' ')
-    if [ "$cr_count" -gt 0 ]; then
-        echo "ERROR: $file has CRLF (or CR) line endings"
-        errors=$((errors + 1))
-    fi
+        if [ "$(od -An -N3 -tx1 "$tmp" | tr -d ' \n')" = "efbbbf" ]; then
+            echo "ERROR: $file has a UTF-8 BOM"
+            errors=$((errors + 1))
+        fi
 
-    # UTF-8 validity check.
-    if ! iconv -f UTF-8 -t UTF-8 "$tmp" > /dev/null 2>&1; then
-        echo "ERROR: $file is not valid UTF-8"
-        errors=$((errors + 1))
-    fi
-done <<EOF
+        cr_count=$(LC_ALL=C tr -d -c '\r' < "$tmp" | wc -c | tr -d ' ')
+        if [ "$cr_count" -gt 0 ]; then
+            echo "ERROR: $file has CRLF (or CR) line endings"
+            errors=$((errors + 1))
+        fi
+
+        if ! iconv -f UTF-8 -t UTF-8 "$tmp" > /dev/null 2>&1; then
+            echo "ERROR: $file is not valid UTF-8"
+            errors=$((errors + 1))
+        fi
+
+        last_byte=$(tail -c 1 "$tmp" | od -An -tx1 | tr -d ' \n')
+        if [ "$last_byte" != "0a" ]; then
+            echo "ERROR: $file does not end with a newline"
+            errors=$((errors + 1))
+        fi
+
+        # SKILL.md frontmatter checks.
+        case "$file" in
+            */SKILL.md)
+                folder=$(dirname "$file")
+                first_line=$(head -n 1 "$tmp" | tr -d '\r')
+                if [ "$first_line" != "---" ]; then
+                    echo "ERROR: $file does not start with '---' YAML frontmatter"
+                    errors=$((errors + 1))
+                else
+                    fm="$tmpdir/fm"
+                    awk '/^---[[:space:]]*$/ { c++; if (c==2) exit; next } c==1' "$tmp" > "$fm"
+
+                    if ! grep -qE '^name:[[:space:]]+' "$fm"; then
+                        echo "ERROR: $file frontmatter is missing 'name:'"
+                        errors=$((errors + 1))
+                    fi
+                    if ! grep -qE '^description:[[:space:]]+' "$fm"; then
+                        echo "ERROR: $file frontmatter is missing 'description:'"
+                        errors=$((errors + 1))
+                    fi
+
+                    name=$(grep -E '^name:[[:space:]]+' "$fm" | head -n 1 \
+                        | sed -E 's/^name:[[:space:]]+//; s/[[:space:]]+$//; s/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/')
+                    if [ -n "$name" ] && [ "$name" != "$folder" ]; then
+                        echo "ERROR: $file frontmatter name '$name' does not match folder '$folder/'"
+                        errors=$((errors + 1))
+                    fi
+                fi
+                ;;
+        esac
+    done <<EOF
 $staged
 EOF
+fi
 
+# ---- Repo-level checks --------------------------------------------------------
+
+# Every skill folder touched by this commit (including deletions) must still
+# contain a SKILL.md in the staged index.
+affected_folders=$(git diff --cached --name-only \
+    | awk -F/ 'NF>1 {print $1}' \
+    | sort -u \
+    | grep -vE '^(\.git|\.githooks|\.idea|\.vscode)$' || true)
+
+if [ -n "$affected_folders" ]; then
+    while IFS= read -r folder; do
+        [ -z "$folder" ] && continue
+        if ! git ls-files --cached --error-unmatch -- "$folder/SKILL.md" >/dev/null 2>&1; then
+            echo "ERROR: $folder/ has no SKILL.md (every skill folder must contain one)"
+            errors=$((errors + 1))
+        fi
+    done <<EOF
+$affected_folders
+EOF
+fi
+
+# Trailing whitespace and merge conflict markers.
+if ! git diff --cached --check >/dev/null 2>&1; then
+    echo "ERROR: trailing whitespace or merge conflict markers detected:"
+    git diff --cached --check || true
+    errors=$((errors + 1))
+fi
+
+# ---- Result -------------------------------------------------------------------
 if [ "$errors" -gt 0 ]; then
     echo ""
     echo "Pre-commit validation failed ($errors error(s))."
-    echo "Required for files under skill subfolders: LF line endings, UTF-8 encoding, no BOM."
     exit 1
 fi
 
