@@ -97,3 +97,13 @@ These skills help you craft better prompts.
   ```
   npx skills@latest add mikevanoo/skills/improve-prompt
   ```
+
+## Contributing
+
+This repo ships a pre-commit hook that blocks commits containing files in skill subfolders with CRLF line endings, a UTF-8 BOM, or invalid UTF-8. Enable it once after cloning:
+
+```
+git config core.hooksPath .githooks
+```
+
+The hook lives at [.githooks/pre-commit](.githooks/pre-commit) and runs on Linux, macOS, and Windows (via Git Bash).
