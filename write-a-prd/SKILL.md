@@ -9,7 +9,7 @@ This skill will be invoked when the user wants to create a PRD. You may skip ste
 
 2. Explore the repo to verify their assertions and understand the current state of the codebase.
 
-3. Interview the user relentlessly about every aspect of this plan until you reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one.
+3. Run a `grill-with-docs` session (or `grill-me` if the project has no `CONTEXT.md` or ADRs to grill against) to stress-test the plan and resolve open branches of the design tree. Do not re-implement the interview procedure here — defer to those skills so the questioning style stays consistent and any future improvements to them flow through automatically.
 
 4. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
 
@@ -17,7 +17,12 @@ A deep module (as opposed to a shallow module) is one which encapsulates a lot o
 
 Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
 
-5. Once you have a complete understanding of the problem and solution, use the template below to write the PRD. The PRD should be submitted as a GitHub issue. The title must be prefixed with "PRD: ".
+**Skip this step if you skipped the codebase exploration in Step 2.** Without grounding in the current code, the sketch becomes speculative architecture that will likely conflict with what already exists. In that case, leave the *Implementation Decisions* section to be filled in later (or by `prd-to-issues`).
+
+5. Once you have a complete understanding of the problem and solution, use the template below to write the PRD. Submit it as a GitHub issue with:
+   - Title prefixed with `PRD: `.
+   - The `prd` label applied (create it with `gh label create prd` if it doesn't exist). This lets `prd-to-issues` and other downstream skills find PRD issues reliably.
+   - A milestone, if the user has one in mind for this work (ask if unclear).
 
 <prd-template>
 
@@ -62,6 +67,10 @@ A list of testing decisions that were made. Include:
 - A description of what makes a good test (only test external behavior, not implementation details)
 - Which modules will be tested
 - Prior art for the tests (i.e. similar types of tests in the codebase)
+
+## Success Criteria
+
+How we will know this feature is successful once shipped. Prefer observable, falsifiable criteria over vague aspirations. Mix qualitative ("a new user can complete onboarding without help") and quantitative ("p95 checkout latency stays under 800ms", "support tickets about X drop by 50% within 30 days") as appropriate. If a metric implies instrumentation that doesn't yet exist, call that out — the instrumentation work belongs in the issue breakdown.
 
 ## Out of Scope
 
