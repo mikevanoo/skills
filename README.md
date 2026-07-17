@@ -111,6 +111,16 @@ These skills help you craft better prompts.
   npx skills@latest add mikevanoo/skills/improve-prompt
   ```
 
+## Presentations
+
+These skills help you craft presentation slides.
+
+- **codurance-deck** — Create a full slide deck from a prompt in markdown.
+
+  ```
+  npx skills@latest add mikevanoo/skills/codurance-deck
+  ```
+
 ## Contributing
 
 This repo ships a pre-commit hook that blocks commits containing files in skill subfolders with CRLF line endings, a UTF-8 BOM, or invalid UTF-8. Enable it once after cloning:
